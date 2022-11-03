@@ -2,4 +2,10 @@
 
 Always work hard
 
-Link : [https://f2wb30anaparthi.onrender.com](https://f2wb30anaparthi.onrender.com)
+[Hosted Link] : [https://f2wb30anaparthi.onrender.com]
+
+Jeep details :
+* Jeep
+    * jeep_color - string
+    * jeep_cost - number
+    * jeep_speed- number
