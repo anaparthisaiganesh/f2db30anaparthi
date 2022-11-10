@@ -1,8 +1,8 @@
-# f2wb30anaparthi
+# f2db30anaparthi
 
 Always work hard
 
-[Hosted Link] : [https://f2wb30anaparthi.onrender.com]
+[Hosted Link] : [https://f2db30anaparthi.onrender.com]
 
 Jeep details :
 * Jeep
