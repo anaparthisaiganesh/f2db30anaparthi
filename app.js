@@ -3,12 +3,29 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var jeep = require("./models/jeep");	
 
+require('dotenv').config(); 	
+const connectionString =  	
+process.env.MONGO_CON 	
+mongoose = require('mongoose'); 	
+mongoose.connect(connectionString,  	
+{useNewUrlParser: true, 	
+useUnifiedTopology: true});	
+//Get the default connection 	
+var db = mongoose.connection; 	
+ 	
+//Bind connection to error event  	
+db.on('error', console.error.bind(console, 'MongoDB connection error:')); 	
+db.once("open", function(){ 	
+  console.log("Connection to DB succeeded")});
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
 var jeepRouter = require('./routes/jeep');
 var gridbuildRouter = require('./routes/gridbuild');
 var selectorRouter = require('./routes/selector');
+var resourceRouter = require('./routes/resource');
+
 
 var app = express();
 
@@ -27,6 +44,7 @@ app.use('/users', usersRouter);
 app.use('/jeep', jeepRouter);
 app.use('/gridbuild', gridbuildRouter);
 app.use('/selector', selectorRouter);
+app.use('/resource', resourceRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,5 +61,33 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+	
+// We can seed the collection if needed on server start 	
+async function recreateDB(){ 	
+  // Delete everything 	
+  await jeep.deleteMany(); 	
+ 	
+  let instance1 = new 	
+jeep({jeep_color:"Black",jeep_cost:1500000,jeep_speed:100}); 	
+  instance1.save( function(err,doc) { 	
+      if(err) return console.error(err); 	
+      console.log("First jeep data saved") 	
+  }); 	
+ 	
+let instance2 = new 	
+jeep({jeep_color:"Black",jeep_cost:1300000,jeep_speed:200}); 	
+instance2.save( function(err,doc) { 	
+      if(err) return console.error(err); 	
+      console.log("Second jeep data saved") 	
+  }); 	
+  let instance3 = new 	
+jeep({jeep_color:"Red",jeep_cost:1300000,jeep_speed:200}); 	
+instance3.save( function(err,doc) { 	
+      if(err) return console.error(err); 	
+      console.log("Third jeep data saved") 	
+  }); 	
+}	
+ 	
+let reseed = true; 	
+if (reseed) { recreateDB();} 
 module.exports = app;
