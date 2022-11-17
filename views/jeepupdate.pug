@@ -1,0 +1,43 @@
+extends layout
+block content
+ h1= title
+ if (toShow == null)
+  h2 No instance to update
+ else
+  - let jeepid = toShow._id
+  - let jeep_color = toShow.jeep_color
+  - let jeep_cost = toShow.jeep_cost
+  - let jeep_speed = toShow.jeep_speed
+
+   div.row(class='mb-2')
+    div.mr-1 ID is
+    div #{jeepid}
+  - let actionid = "/resource/jeep/" + jeepid
+  form(id='jeepForm', action= actionid, method="PUT")
+   div.form-group
+    label.costumeAttr(for='jeep_color') jeep_color
+    input#jeep_color(type='text', name='jeep_color', value= jeep_color )
+   div.form-group
+    label.costumeAttr(for='jeep_cost') jeep_cost
+    input#jeepFlavor(type='text', name='jeep_cost', value= jeep_cost )
+   div.form-group
+    label.costumeAttr(for='jeep_speed') jeep_speed
+    input#cost(type='number', name='jeep_speed', value= jeep_speed )
+   input(type="submit")
+  script.
+   document.forms['jeepForm'].addEventListener('submit', (event) => {
+    event.preventDefault();
+    // TODO do something here to show user that form is being submitted
+    fetch(event.target.action, {
+     method: 'PUT',
+     body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+    }).then((resp) => {
+     return resp.json(); // or resp.text() or whatever the server sends
+    }).then((body) => {
+     alert("Update succeded")
+    // TODO handle body
+    }).catch((error) => {
+    // TODO handle error
+     alert("Update failed " + error )
+    });
+   });

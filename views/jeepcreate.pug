@@ -1,0 +1,35 @@
+extends layout
+block content
+ div(class="container-fluid p-5 bg-primary text-blue text-center")
+  h2.text-center Create New Game
+ br
+ form(id='jeepForm', action="/resource/jeep", method="POST")
+  div.form-group
+   label.jeepstyle(for='jeep_color') jeep_color
+   input#jeep_color(type='text', name='jeep_color')
+  div.form-group
+   label.jeepstyle(for='jeep_cost') jeep_cost
+   input#jeep_cost(type='text', name='jeep_cost')
+  div.form-group
+   label.jeepstyle(for='jeep_speed') jeep_speed
+   input#price(type='number', name='jeep_speed')
+ 
+  br
+  button(type="submit",class="btn btn-primary") SUBMIT
+ script.
+  document.forms['jeepForm'].addEventListener('submit', (event) => {
+  event.preventDefault();
+  // TODO do something here to show user that form is being submitted
+  fetch(event.target.action, {
+   method: 'POST',
+   body: new URLSearchParams(new FormData(event.target)) // event.target is the form
+  }).then((resp) => {
+   return resp.json(); // or resp.text() or whatever the server sends
+  }).then((body) => {
+   alert("Save succeded")
+  // TODO handle body
+  }).catch((error) => {
+  // TODO handle error
+   alert("Save failed " + error )
+   });
+  });

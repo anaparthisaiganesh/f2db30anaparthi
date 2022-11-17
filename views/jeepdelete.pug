@@ -1,0 +1,53 @@
+extends layout
+block content
+ h1= title
+ if (toShow == null)
+  h2 No instance to delete
+ else
+  - let jeepid = toShow._id
+  - let jeep_color = toShow.jeep_color
+  - let jeep_cost = toShow.jeep_cost
+  - let jeep_speed = toShow.jeep_speed
+  - let actionid = "/resource/jeep/" + jeepid
+  script let actionid = "#{actionid}"
+  div
+   div.row
+    div(class='costumeAttr mr-3') jeep ID is:
+    div #{jeepid}
+   div.row
+    div(class='costumeAttr mr-3') jeep color is:
+    div #{jeep_color}
+   div.row
+    div(class='costumeAttr mr-3') jeep cost is:
+    div #{jeep_cost}
+   div.row
+    div(class='costumeAttr mr-3') jeep speed is:
+    div #{jeep_speed}
+  button(class="btn btn-danger m-2" onclick="deleteOnid()") Delete
+  button(class="btn btn-secondary m-2" onclick="cancel()") Cancel
+ script.
+  function cancel() {
+  // Go back to the home page for the jeep collection
+  window.location.href='/jeep'
+  }
+ script.
+  function deleteOnid() {
+  console.log("starting delete")
+  // delete first
+  fetch(actionid, {
+  method: 'DELETE' // Don't need a body for the delete
+  }).then((resp) => {
+  return resp.json(); // or resp.text() or whatever the server sends
+  }).then((body) => {
+  alert("Delete succeded")
+  window.location.href='/jeep'
+  // TODO handle body
+  }).catch((error) => {
+  // TODO handle error
+  alert("Delete failed " + error )
+  });
+  }
+
+
+
+  
