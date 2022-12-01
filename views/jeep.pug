@@ -2,16 +2,27 @@ extends layout
 
 block content
   h1= title
+
   - let res1=results
+  - let create = `dispatch(\"/jeep/create\")` 
+  button.btn( class="btn-primary ml-1", onclick= create) create 
   div(class="container-fluid")
-  div(class="row m-1")
-   each value ,index in res1
-     - let destination = `dispatch(\"/jeep/update?id=${value._id}\")` 
-       div(class="row-sm-2", class="m-1")  Color #{value.jeep_color} , Cost #{value.jeep_cost}, Speed #{value.jeep_speed}km/hr
-        button.btn( class="btn-primary ml-1", onclick= destination) Update 
-   
-  script. 
-    function dispatch(path){ 
-      window.location.href=path 
-    } 
+   div(class="row m-1")
+    each value ,index in res1
+      - let destination = `dispatch(\"/jeep/update?id=${value._id}\")` 
+      - let detail = `dispatch(\"/jeep/detail?id=${value._id}\")`
+      - let deleteit = `dispatch(\"/jeep/delete?id=${value._id}\")`
+        div(class="row-sm-2", class="m-1")  Color #{value.jeep_color} , Cost #{value.jeep_cost}, Speed #{value.jeep_speed}km/hr
+          
+          p
+          button.btn( class="btn-primary ml-1", onclick= destination) Update 
+          p
+          button.btn( class="btn-primary ml-1", onclick= deleteit) delete
+          p
+          button.btn( class="btn-primary ml-1", onclick= detail) detail
+    
+   script. 
+      function dispatch(path){ 
+        window.location.href=path 
+      } 
  
